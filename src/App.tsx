@@ -2,10 +2,12 @@ import { useEffect, useMemo, useState } from 'react';
 import { BackendProvider, useBackend } from './data/context';
 import { createDemoBackend } from './data/demoBackend';
 import { NoteBar } from './features/notes/NoteBar';
+import { usePlace } from './features/weather/usePlace';
 import { useWeather } from './features/weather/useWeather';
 import { useIsDesktop } from './lib/useMediaQuery';
 import { useNow } from './lib/useNow';
 import { useTheme } from './lib/theme';
+import { More } from './screens/More';
 import { Today } from './screens/Today';
 import { DesktopShell, MobileShell, type Tab } from './shell/Shell';
 
@@ -40,12 +42,15 @@ function Balkon() {
   const theme = useTheme();
   const [tab, setTab] = useHashTab();
   const now = useNow();
-  const city = 'Utrecht';
-  const weather = useWeather(now);
+  const place = usePlace();
+  const city = place.name;
+  const weather = useWeather(now, place);
 
   const screen =
     tab === 'vandaag' ? (
       <Today now={now} city={city} weather={weather} compact={!isDesktop} />
+    ) : tab === 'meer' ? (
+      <More compact={!isDesktop} />
     ) : (
       <Later tab={tab} compact={!isDesktop} />
     );
