@@ -8,6 +8,7 @@ import { useIsDesktop } from './lib/useMediaQuery';
 import { useNow } from './lib/useNow';
 import { useTheme } from './lib/theme';
 import { More } from './screens/More';
+import { PlantsScreen } from './screens/PlantsScreen';
 import { Today } from './screens/Today';
 import { DesktopShell, MobileShell, type Tab } from './shell/Shell';
 
@@ -49,6 +50,8 @@ function Balkon() {
   const screen =
     tab === 'vandaag' ? (
       <Today now={now} city={city} weather={weather} compact={!isDesktop} />
+    ) : tab === 'planten' ? (
+      <PlantsScreen now={now} weather={weather} compact={!isDesktop} />
     ) : tab === 'meer' ? (
       <More compact={!isDesktop} />
     ) : (
