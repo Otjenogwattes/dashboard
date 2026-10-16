@@ -1,14 +1,34 @@
--- Elk uur Spotify bijwerken. Eenmalig uitvoeren in Supabase > SQL Editor,
--- nadat de Edge Functions zijn gedeployd. Vul eerst de twee waarden in.
+-- Elk uur Spotify bijwerken. Uitvoeren in Supabase > SQL Editor, nadat de
+-- Edge Functions zijn gedeployd. Vul eerst de twee waarden hieronder in
+-- (alleen in de SQL Editor, niet in dit bestand: de CRON_SECRET hoort niet in git).
+-- Je kunt dit script gerust opnieuw draaien: bestaande waarden worden bijgewerkt.
 
 create extension if not exists pg_cron;
 create extension if not exists pg_net;
 
 -- 1. Je project-URL en dezelfde CRON_SECRET als bij de Edge Function-secrets.
-select vault.create_secret('https://JOUW-PROJECT.supabase.co', 'balkon_project_url');
-select vault.create_secret('VUL-HIER-JE-CRON_SECRET-IN', 'balkon_cron_secret');
+do $$
+declare
+  v_url    text := 'https://JOUW-PROJECT.supabase.co';
+  v_secret text := 'VUL-HIER-JE-CRON_SECRET-IN';
+  v_id     uuid;
+begin
+  select id into v_id from vault.secrets where name = 'balkon_project_url';
+  if v_id is null then
+    perform vault.create_secret(v_url, 'balkon_project_url');
+  else
+    perform vault.update_secret(v_id, v_url);
+  end if;
 
--- 2. Elk uur, 7 minuten over het hele uur.
+  select id into v_id from vault.secrets where name = 'balkon_cron_secret';
+  if v_id is null then
+    perform vault.create_secret(v_secret, 'balkon_cron_secret');
+  else
+    perform vault.update_secret(v_id, v_secret);
+  end if;
+end $$;
+
+-- 2. Elk uur, 7 minuten over het hele uur. Bestaat de taak al, dan wordt hij vervangen.
 select cron.schedule(
   'balkon-spotify-sync',
   '7 * * * *',
@@ -26,4 +46,5 @@ select cron.schedule(
 );
 
 -- Controleren:   select * from cron.job_run_details order by start_time desc limit 5;
+-- Antwoord zien: select status_code, content::text, error_msg from net._http_response order by created desc limit 5;
 -- Stoppen:       select cron.unschedule('balkon-spotify-sync');
