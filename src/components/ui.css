@@ -1,0 +1,136 @@
+/* ---------- Card ---------- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--card-r, var(--r-24));
+  box-shadow: var(--shadow);
+  min-width: 0;
+}
+.card--flat { box-shadow: none; }
+.card--night {
+  background: var(--night);
+  color: var(--night-ink);
+  border: none;
+  box-shadow: none;
+}
+
+/* ---------- Pill ---------- */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: var(--r-pill);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.pill--sm { gap: 5px; padding: 4px 9px; }
+
+.status--ok { background: var(--plant-soft); color: var(--plant); }
+.status--droog { background: var(--warn-soft); color: var(--warn); }
+.status--actie { background: var(--alert-soft); color: var(--alert); }
+
+/* Vormen: OK = gevulde cirkel, Bijna droog = halve cirkel, Actie nodig = driehoek. */
+.status-shape { flex: none; display: inline-block; }
+.status-shape--ok,
+.status-shape--droog {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+}
+.status-shape--ok { background: currentColor; }
+.status-shape--droog { background: linear-gradient(90deg, currentColor 50%, transparent 50%); }
+.status-shape--actie {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 9px solid currentColor;
+}
+.pill--sm .status-shape--ok,
+.pill--sm .status-shape--droog { width: 8px; height: 8px; }
+.pill--sm .status-shape--actie { border-left-width: 4px; border-right-width: 4px; border-bottom-width: 8px; }
+
+/* ---------- Button ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border: none;
+  border-radius: var(--r-pill);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: filter .15s ease, transform .1s ease;
+}
+.btn:hover:not(:disabled) { filter: brightness(1.05); }
+.btn:active:not(:disabled) { transform: scale(.98); }
+.btn:disabled { opacity: .55; }
+.btn--lg { min-height: 48px; padding: 0 22px; }
+.btn--wide { padding: 0 24px; }
+.btn--plant { background: var(--plant); color: var(--plant-on); }
+.btn--music { background: var(--music); color: var(--music-on); }
+.btn--music-2 { background: var(--music-2); color: var(--music-on); }
+.btn--ink { background: var(--ink); color: var(--bg); }
+.btn--outline { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+.btn--ghost { background: transparent; color: var(--ink-2); font-weight: 500; text-decoration: underline; padding: 0 12px; }
+.btn--dashed { background: transparent; color: inherit; border: 1.5px dashed var(--night-2); font-size: 13px; font-weight: 500; padding: 0 14px; }
+
+/* ---------- Taak (checkbox) ---------- */
+.task {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 46px;
+  padding: 4px 4px 4px 60px;
+  border-radius: 12px;
+  transition: opacity .15s ease;
+}
+.task:focus-visible { outline: 2.5px solid var(--frost); outline-offset: -2px; }
+.task[aria-checked=true] { opacity: .55; }
+.task__box {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--plant);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+.task[aria-checked=true] .task__box { background: var(--plant); }
+.task__text { display: flex; flex-direction: column; min-width: 0; }
+.task__title { font-size: 14px; font-weight: 600; }
+.task[aria-checked=true] .task__title { text-decoration: line-through; }
+.task__detail { font-size: 12px; color: var(--ink-2); }
+.task--compact { gap: 10px; min-height: 44px; padding: 2px 0 2px 50px; }
+
+/* ---------- Module-merktekens ---------- */
+.mark { flex: none; display: inline-block; }
+.mark--tuin { border-radius: 3px; background: var(--plant); }
+.mark--muziek { border-radius: 50%; background: var(--music); }
+.mark--kleding { border-radius: 4px; background: var(--earth); }
+.mark--shit { border-radius: 50% 50% 40% 40%; background: var(--earth); }
+.mark--meer { border-radius: 3px; border: 2px solid var(--ink-2); }
+
+/* ---------- Logo ---------- */
+.logo { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; }
+.logo__word {
+  font: 800 30px/1 var(--font-display);
+  letter-spacing: -.05em;
+}
+.logo--compact { gap: 8px; }
+.logo--compact .logo__word { font-size: 24px; }

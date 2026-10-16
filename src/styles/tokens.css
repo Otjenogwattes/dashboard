@@ -1,0 +1,141 @@
+/*
+ * Balkon design tokens.
+ * Licht is de basis. Donker volgt het systeem (prefers-color-scheme),
+ * of wordt afgedwongen met <html data-theme="dark">. data-theme="light"
+ * dwingt licht af. Accent "geel" wisselt --music en --music-2.
+ *
+ * --music-ink / --music-2-ink zijn tekstvarianten van de accentkleuren
+ * die op --surface en --surface-2 aan 4,5:1 contrast voldoen.
+ */
+
+:root {
+  --bg: #EDE7DA;
+  --surface: #F8F4EC;
+  --surface-2: #E6DFD0;
+  --ink: #1C211C;
+  --ink-2: #596152;
+  --line: #DAD2C2;
+  --plant: #2F5D3F;
+  --plant-soft: #D6E2CF;
+  --plant-on: #FFFFFF;
+  --earth: #8A4E2B;
+  --earth-soft: #EAD9C6;
+  --music: #EE6A4C;
+  --music-2: #F0A030;
+  --music-on: #2A120B;
+  --music-ink: #9E3F27;
+  --music-2-ink: #85570F;
+  --frost: #2C5A82;
+  --frost-soft: #DCE7F1;
+  --warn: #85570F;
+  --warn-soft: #F3E6CC;
+  --alert: #A3322A;
+  --alert-soft: #F4DCD6;
+  --night: #1C211C;
+  --night-ink: #F1ECE1;
+  --night-2: #B2B6A8;
+  --night-line: #343A33;
+  --shadow: 0 1px 2px rgba(30, 42, 31, .05), 0 10px 30px rgba(30, 42, 31, .07);
+  color-scheme: light;
+
+  --font-display: 'Bricolage Grotesque', 'IBM Plex Sans', system-ui, sans-serif;
+  --font-sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+
+  --r-10: 10px;
+  --r-12: 12px;
+  --r-16: 16px;
+  --r-20: 20px;
+  --r-22: 22px;
+  --r-24: 24px;
+  --r-28: 28px;
+  --r-pill: 999px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme=light]) {
+    --bg: #121712;
+    --surface: #1B211B;
+    --surface-2: #262D25;
+    --ink: #EFEADF;
+    --ink-2: #A9AE9F;
+    --line: #323A31;
+    --plant: #93C2A0;
+    --plant-soft: #22352A;
+    --plant-on: #0F1A12;
+    --earth: #D9A27C;
+    --earth-soft: #3A2B20;
+    --music: #F28C70;
+    --music-2: #F4B04A;
+    --music-on: #2A120B;
+    --music-ink: #F28C70;
+    --music-2-ink: #F4B04A;
+    --frost: #9CC3E6;
+    --frost-soft: #1C2A36;
+    --warn: #E3B866;
+    --warn-soft: #332A19;
+    --alert: #F09A88;
+    --alert-soft: #3A2220;
+    --night: #0A0D0A;
+    --night-ink: #F1ECE1;
+    --night-2: #A9AE9F;
+    --night-line: #262C25;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 10px 30px rgba(0, 0, 0, .3);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme=dark] {
+  --bg: #121712;
+  --surface: #1B211B;
+  --surface-2: #262D25;
+  --ink: #EFEADF;
+  --ink-2: #A9AE9F;
+  --line: #323A31;
+  --plant: #93C2A0;
+  --plant-soft: #22352A;
+  --plant-on: #0F1A12;
+  --earth: #D9A27C;
+  --earth-soft: #3A2B20;
+  --music: #F28C70;
+  --music-2: #F4B04A;
+  --music-on: #2A120B;
+  --music-ink: #F28C70;
+  --music-2-ink: #F4B04A;
+  --frost: #9CC3E6;
+  --frost-soft: #1C2A36;
+  --warn: #E3B866;
+  --warn-soft: #332A19;
+  --alert: #F09A88;
+  --alert-soft: #3A2220;
+  --night: #0A0D0A;
+  --night-ink: #F1ECE1;
+  --night-2: #A9AE9F;
+  --night-line: #262C25;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 10px 30px rgba(0, 0, 0, .3);
+  color-scheme: dark;
+}
+
+/* Accent geel: jij en je partner wisselen van kleur. */
+:root[data-accent=geel] {
+  --music: #F0A030;
+  --music-2: #EE6A4C;
+  --music-ink: #85570F;
+  --music-2-ink: #9E3F27;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme=light])[data-accent=geel] {
+    --music: #F4B04A;
+    --music-2: #F28C70;
+    --music-ink: #F4B04A;
+    --music-2-ink: #F28C70;
+  }
+}
+
+:root[data-theme=dark][data-accent=geel] {
+  --music: #F4B04A;
+  --music-2: #F28C70;
+  --music-ink: #F4B04A;
+  --music-2-ink: #F28C70;
+}
