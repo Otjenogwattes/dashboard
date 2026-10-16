@@ -1,0 +1,41 @@
+.today { display: flex; flex-direction: column; gap: 28px; }
+.today__top {
+  display: grid;
+  grid-template-columns: 400px minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+}
+.today__left { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+.today__right { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .today__top { grid-template-columns: 340px minmax(0, 1fr); gap: 24px; }
+}
+
+/* ---------- Datum ---------- */
+.date-hero { display: flex; align-items: flex-end; gap: 16px; margin: 0; font-weight: inherit; }
+.date-hero__day { font: 800 132px/.82 var(--font-display); letter-spacing: -.06em; }
+.date-hero__side { display: flex; flex-direction: column; gap: 6px; padding-bottom: 6px; }
+.date-hero__month { font: 800 52px/.9 var(--font-display); letter-spacing: -.05em; color: var(--plant); }
+.date-hero__meta { font: 600 12px var(--font-mono); letter-spacing: .12em; color: var(--ink-2); }
+
+.date-hero--m { gap: 12px; }
+.date-hero--m .date-hero__day { font-size: 96px; }
+.date-hero--m .date-hero__side { gap: 4px; padding-bottom: 4px; }
+.date-hero--m .date-hero__month { font-size: 34px; letter-spacing: -.04em; }
+.date-hero--m .date-hero__meta { font-size: 11px; letter-spacing: .1em; }
+
+.greeting { font: 500 22px/1.25 var(--font-display); letter-spacing: -.01em; text-wrap: pretty; }
+.greeting--m { font-size: 18px; line-height: 1.3; }
+
+/* ---------- Weer laden / fout ---------- */
+.weather-ph {
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+.weather-ph--m { min-height: 120px; }

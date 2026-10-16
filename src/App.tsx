@@ -1,30 +1,81 @@
-import { useState } from 'react';
-import { Button } from './components/Button';
-import { Card } from './components/Card';
-import { Logo } from './components/Logo';
-import { ModuleMark } from './components/ModuleMark';
-import { StatusPill } from './components/Pill';
-import { TaskCheckbox } from './components/TaskCheckbox';
+import { useEffect, useMemo, useState } from 'react';
+import { BackendProvider, useBackend } from './data/context';
+import { createDemoBackend } from './data/demoBackend';
+import { NoteBar } from './features/notes/NoteBar';
+import { useWeather } from './features/weather/useWeather';
+import { useIsDesktop } from './lib/useMediaQuery';
+import { useNow } from './lib/useNow';
+import { useTheme } from './lib/theme';
+import { Today } from './screens/Today';
+import { DesktopShell, MobileShell, type Tab } from './shell/Shell';
 
-/** Tijdelijke componentenpagina (stap 1). */
+const TAB_IDS: Tab[] = ['vandaag', 'planten', 'muziek', 'meer'];
+
+function useHashTab(): [Tab, (t: Tab) => void] {
+  const read = () => {
+    const h = window.location.hash.slice(1) as Tab;
+    return TAB_IDS.includes(h) ? h : 'vandaag';
+  };
+  const [tab, setTab] = useState<Tab>(read);
+  useEffect(() => {
+    const on = () => setTab(read());
+    window.addEventListener('hashchange', on);
+    return () => window.removeEventListener('hashchange', on);
+  }, []);
+  return [tab, t => { window.location.hash = t === 'vandaag' ? '' : t; setTab(t); }];
+}
+
 export function App() {
-  const [done, setDone] = useState(false);
+  const backend = useMemo(() => createDemoBackend(), []);
   return (
-    <main style={{ padding: 32, display: 'grid', gap: 20, maxWidth: 560 }}>
-      <Logo />
-      <Card style={{ padding: 16 }}>
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-          <StatusPill status="ok" />
-          <StatusPill status="droog" />
-          <StatusPill status="actie" />
-        </div>
-        <TaskCheckbox title="Water geven" detail="ca. 1 liter" done={done} onToggle={() => setDone(!done)} />
-      </Card>
-      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-        <ModuleMark module="tuin" /> <ModuleMark module="muziek" /> <ModuleMark module="kleding" /> <ModuleMark module="shit" />
-        <Button>Opslaan</Button>
-        <Button variant="music">Spotify koppelen</Button>
-      </div>
-    </main>
+    <BackendProvider backend={backend}>
+      <Balkon />
+    </BackendProvider>
+  );
+}
+
+function Balkon() {
+  const backend = useBackend();
+  const isDesktop = useIsDesktop();
+  const theme = useTheme();
+  const [tab, setTab] = useHashTab();
+  const now = useNow();
+  const city = 'Utrecht';
+  const weather = useWeather(now);
+
+  const screen =
+    tab === 'vandaag' ? (
+      <Today now={now} city={city} weather={weather} compact={!isDesktop} />
+    ) : (
+      <Later tab={tab} compact={!isDesktop} />
+    );
+
+  if (isDesktop) {
+    return (
+      <DesktopShell tab={tab} onTab={setTab} city={city} theme={theme}>
+        {screen}
+      </DesktopShell>
+    );
+  }
+  return (
+    <MobileShell
+      tab={tab}
+      onTab={setTab}
+      city={city}
+      theme={theme}
+      bottom={tab === 'vandaag' || tab === 'planten' ? <NoteBar compact onSave={(text, plantId) => backend.addNote(text, plantId)} /> : null}
+    >
+      {screen}
+    </MobileShell>
+  );
+}
+
+function Later({ tab, compact }: { tab: Tab; compact: boolean }) {
+  const title = { vandaag: 'Vandaag', planten: 'Planten', muziek: 'Muziek', meer: 'Herinneringen' }[tab];
+  return (
+    <section style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <h1 className={compact ? 'screen-title screen-title--m' : 'screen-title'}>{title}</h1>
+      <p className="screen-lead">Dit scherm volgt later in dezelfde stijl.</p>
+    </section>
   );
 }

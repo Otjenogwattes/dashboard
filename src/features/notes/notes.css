@@ -1,0 +1,71 @@
+.notes { display: flex; flex-direction: column; gap: 8px; }
+.notebar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  padding: 8px 8px 8px 26px;
+  box-shadow: var(--shadow);
+}
+.notebar__label {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: 600 12px var(--font-mono);
+  letter-spacing: .1em;
+  color: var(--plant);
+}
+.notebar__input {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  color: var(--ink);
+  border-radius: 8px;
+  outline-offset: 3px;
+}
+.notebar__targets { flex: none; display: flex; gap: 6px; }
+.notebar__target {
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink-2);
+  font-size: 14px;
+  font-weight: 500;
+}
+.notebar__target[aria-pressed=true] { background: var(--plant-soft); border-color: var(--plant); color: var(--plant); }
+.notebar__status { padding-left: 26px; font-size: 13px; color: var(--ink-2); }
+.notebar__status--error { color: var(--alert); }
+
+/* ---------- Mobiel (vast onderaan) ---------- */
+.notebar-m { flex: none; padding: 10px 14px; background: var(--bg); display: flex; flex-direction: column; gap: 6px; }
+.notebar-m .notebar__status { padding-left: 18px; }
+.notebar-m__row { display: flex; gap: 8px; }
+.notebar-m__input {
+  flex: 1;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 16px;
+}
+.notebar-m__add {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  background: var(--plant);
+  color: var(--plant-on);
+  font: 500 24px/1 var(--font-sans);
+}

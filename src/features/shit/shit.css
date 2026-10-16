@@ -1,0 +1,142 @@
+.shit {
+  padding: 20px 24px;
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: center;
+}
+
+.shit__intro { display: flex; flex-direction: column; gap: 4px; }
+.shit__label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: 600 12px var(--font-mono);
+  letter-spacing: .08em;
+  color: var(--earth);
+}
+.shit__lead { font: 700 20px/1.2 var(--font-display); text-wrap: pretty; }
+.shit__week { font-size: 13px; color: var(--ink-2); }
+
+.shit__tile {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 12px 12px 12px 16px;
+  border-radius: 20px;
+  background: var(--surface-2);
+  min-width: 0;
+}
+.shit__info { display: flex; flex-direction: column; gap: 2px; }
+.shit__who { font: 600 11px var(--font-mono); letter-spacing: .06em; }
+.shit__today { font: 800 44px/.9 var(--font-display); letter-spacing: -.04em; }
+.shit__avg { font-size: 12px; color: var(--ink-2); white-space: nowrap; }
+.shit__avg span { font-weight: 600; color: var(--ink); }
+
+.shit__chart { display: flex; align-items: flex-end; gap: 4px; height: 56px; min-width: 0; overflow: hidden; }
+.shit__day {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+}
+.shit__bar { width: 100%; max-width: 14px; min-height: 3px; border-radius: 4px; }
+.shit__letter { font: 500 10px var(--font-mono); }
+
+.shit__btns { display: flex; flex-direction: column; gap: 6px; }
+.shit__inc {
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 16px;
+  color: var(--music-on);
+  font: 600 26px/1 var(--font-sans);
+  transition: transform .1s ease, filter .15s ease;
+}
+.shit__inc:hover { filter: brightness(1.05); }
+.shit__inc:active { transform: scale(.95); }
+.shit__dec {
+  position: relative;
+  width: 52px;
+  height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--ink-2);
+  font: 500 12px var(--font-sans);
+}
+/* Klikvlak van 44px hoog, ook al is de knop zelf 30px. */
+.shit__dec::after { content: ''; position: absolute; left: -2px; right: -2px; top: 0; bottom: -14px; }
+.shit__dec:disabled { opacity: .5; }
+
+.grade {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 12px;
+  border-radius: 18px;
+  border: 1.5px solid var(--earth);
+  background: var(--earth-soft);
+}
+.grade__q { flex-basis: 100%; font-size: 14px; font-weight: 600; margin: 0 0 4px 4px; }
+.grade__n {
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--ink);
+  font: 700 16px var(--font-sans);
+}
+.grade__n:hover { border-color: var(--earth); }
+.grade__skip {
+  min-height: 46px;
+  padding: 0 12px;
+  border: none;
+  background: transparent;
+  color: var(--ink-2);
+  font: 500 13px var(--font-sans);
+  text-decoration: underline;
+}
+
+.shit__error { grid-column: 1 / -1; font-size: 13px; color: var(--alert); }
+
+/* Smallere desktop: uitleg boven de twee tegels. */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .shit { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .shit__intro { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
+}
+
+/* ---------- Mobiel ---------- */
+.shit--m { padding: 14px 14px 12px; display: flex; flex-direction: column; align-items: stretch; gap: 10px; }
+.shit-m__head { display: flex; align-items: baseline; gap: 8px; }
+.shit--m .shit__label { font-size: 11px; }
+.shit-m__week { margin-left: auto; font-size: 12px; color: var(--ink-2); }
+.shit-m__tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.shit-m__tile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 10px 10px 14px;
+  border-radius: 16px;
+  background: var(--surface-2);
+  min-width: 0;
+}
+.shit-m__info { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.shit-m__who { font: 600 10px var(--font-mono); overflow: hidden; text-overflow: ellipsis; }
+.shit-m__today { font: 800 32px/.95 var(--font-display); }
+.shit-m__avg { font-size: 11px; color: var(--ink-2); }
+.shit__inc--m { width: 48px; height: 48px; border-radius: 14px; font-size: 20px; }
+.shit--m .shit__dec { width: 48px; height: 26px; }
+.shit--m .shit__btns { gap: 4px; }
+.shit--m .grade { gap: 5px; padding: 10px; }
+.shit--m .grade__n { width: 44px; height: 44px; }
+.shit--m .grade__skip { min-height: 44px; }
+.shit--m .shit__dec::after { bottom: -18px; }

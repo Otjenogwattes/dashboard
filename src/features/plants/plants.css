@@ -1,0 +1,39 @@
+.plants { padding: 14px 16px 6px; }
+.plants__head { display: flex; align-items: center; gap: 10px; padding: 0 4px 10px; }
+.plants__title { font: 700 17px/1.2 var(--font-display); }
+.plants__count { margin-left: auto; font-size: 13px; color: var(--ink-2); }
+.plants__loading { border-top: 1px solid var(--line); padding: 18px 4px; font-size: 14px; color: var(--ink-2); }
+.plants__empty {
+  border-top: 1px solid var(--line);
+  padding: 18px 4px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.plant { border-top: 1px solid var(--line); padding: 10px 0 4px; }
+.plant__row {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 0 4px;
+}
+.plant__photo { width: 44px; height: 44px; border-radius: 12px; }
+.plant__info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.plant__name { font: 700 18px/1.1 var(--font-display); }
+.plant__meta { font-size: 12px; color: var(--ink-2); }
+
+/* ---------- Mobiel ---------- */
+.plants--m { padding: 12px 14px 4px; }
+.plants--m .plant { border-top: none; border-bottom: 1px solid var(--line); padding: 6px 0 4px; }
+.plants--m .plant__row { grid-template-columns: 40px minmax(0, 1fr) auto; gap: 10px; padding: 0; }
+.plants--m .plant__photo { width: 40px; height: 40px; border-radius: 10px; }
+.plants--m .plant__info { gap: 0; }
+.plants--m .plant__name { font-size: 17px; }
+.plants--m .plants__empty { border-top: none; padding: 8px 2px 14px; font-size: 14px; }
+.plants--m .plants__loading { border-top: none; }
