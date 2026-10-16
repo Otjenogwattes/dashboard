@@ -1,0 +1,16 @@
+.login {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+}
+.login__card { width: 100%; max-width: 420px; padding: 28px 28px 22px; display: flex; flex-direction: column; gap: 14px; }
+.login__title { font: 800 40px/1 var(--font-display); letter-spacing: -.04em; margin-top: 10px; }
+.login__lead { font-size: 15px; color: var(--ink-2); line-height: 1.5; }
+.login__form { display: flex; flex-direction: column; gap: 12px; margin-top: 6px; }
+.login__field { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: var(--ink-2); }
+.login__error { font-size: 14px; color: var(--alert); }
+.login__info { font-size: 14px; color: var(--plant); }
+

@@ -11,16 +11,6 @@
 .setting-hint { font-size: 14px; color: var(--ink-2); line-height: 1.5; }
 .setting-hint strong { color: var(--ink); font-weight: 600; }
 
-.field {
-  width: 100%;
-  min-height: 48px;
-  padding: 0 18px;
-  border: 1px solid var(--line);
-  border-radius: var(--r-pill);
-  background: var(--bg);
-  color: var(--ink);
-  font-size: 16px;
-}
 
 .place-results { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; border-top: 1px solid var(--line); }
 .place-result {
