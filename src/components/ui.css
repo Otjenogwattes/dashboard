@@ -179,3 +179,13 @@
   font-size: 22px;
   line-height: 1;
 }
+
+/* ---------- Offline ---------- */
+.offline {
+  padding: 10px 16px;
+  border-radius: var(--r-16);
+  background: var(--warn-soft);
+  color: var(--warn);
+  font-size: 14px;
+  font-weight: 500;
+}

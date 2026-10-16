@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { OfflineBanner } from './components/OfflineBanner';
 import { SpotifyToast } from './components/Toast';
 import { BackendProvider, useBackend } from './data/context';
 import { createDemoBackend } from './data/demoBackend';
@@ -80,13 +81,14 @@ function Balkon() {
     ) : tab === 'muziek' ? (
       <MusicScreen now={now} compact={!isDesktop} />
     ) : (
-      <More now={now} compact={!isDesktop} />
+      <More now={now} compact={!isDesktop} theme={theme} />
     );
 
   if (isDesktop) {
     return (
       <DesktopShell tab={tab} onTab={setTab} city={city} theme={theme}>
         <SpotifyToast />
+        <OfflineBanner />
         {screen}
       </DesktopShell>
     );
@@ -100,6 +102,7 @@ function Balkon() {
       bottom={tab === 'vandaag' || tab === 'planten' ? <NoteBar compact onSave={(text, plantId) => backend.addNote(text, plantId)} /> : null}
     >
       <SpotifyToast />
+      <OfflineBanner />
       {screen}
     </MobileShell>
   );

@@ -39,7 +39,15 @@ export function Today({ now, city, weather, compact }: Props) {
   );
 
   const plantsCard = (
-    <PlantsCard plants={plants.plants} onToggle={plants.toggle} onAddPlant={plants.addDefaults} compact={compact} loading={plants.loading && !plants.plants.length} />
+    <PlantsCard
+      plants={plants.plants}
+      onToggle={plants.toggle}
+      onAddPlant={plants.addDefaults}
+      compact={compact}
+      loading={plants.loading && !plants.plants.length && !plants.error}
+      error={plants.error}
+      onRetry={plants.retry}
+    />
   );
 
   const shitCard = (
@@ -52,7 +60,9 @@ export function Today({ now, city, weather, compact }: Props) {
       onInc={shit.inc}
       onDec={shit.dec}
       onGrade={shit.grade}
+      onCancel={shit.cancel}
       compact={compact}
+      loading={shit.loading}
       error={shit.error}
     />
   );

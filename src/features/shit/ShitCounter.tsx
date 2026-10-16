@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { Card } from '../../components/Card';
 import { ModuleMark } from '../../components/ModuleMark';
 import { WEEK_LETTERS } from '../../lib/dates';
@@ -15,20 +16,46 @@ type Props = {
   onInc: (who: Who) => void;
   onDec: (who: Who) => void;
   onGrade: (grade: number | null) => void;
+  /** Kiezer sluiten zonder dat de +1 meetelt (Escape). */
+  onCancel: () => void;
   compact?: boolean;
+  loading?: boolean;
   error?: string | null;
 };
 
-export function ShitCounter({ me, her, herName, todayIdx, pending, onInc, onDec, onGrade, compact, error }: Props) {
+export function ShitCounter({ me, her, herName, todayIdx, pending, onInc, onDec, onGrade, onCancel, compact, loading, error }: Props) {
   const smax = Math.max(3, ...me.week, ...her.week);
-  const weekLine = `${me.weekTotal} – ${her.weekTotal}`;
+  const weekLine = loading ? '–' : `${me.weekTotal} – ${her.weekTotal}`;
   const people = [
     { key: 'me' as const, who: 'JIJ', name: 'jou', s: me, ink: 'var(--music-ink)', btn: 'var(--music)' },
     { key: 'her' as const, who: herName.toUpperCase(), name: herName, s: her, ink: 'var(--music-2-ink)', btn: 'var(--music-2)' },
   ];
+  const count = (n: number) => (loading ? '–' : n);
+
+  // Toetsenbord: focus naar de kiezer, en daarna terug naar de +1-knop.
+  const pickerRef = useRef<HTMLDivElement>(null);
+  const lastPending = useRef<Who | null>(null);
+  const incRefs = useRef<Record<Who, HTMLButtonElement | null>>({ me: null, her: null });
+  useEffect(() => {
+    if (pending) {
+      lastPending.current = pending;
+      pickerRef.current?.querySelector<HTMLButtonElement>('.grade__n')?.focus();
+    } else if (lastPending.current && pickerRef.current === null && document.activeElement === document.body) {
+      incRefs.current[lastPending.current]?.focus();
+      lastPending.current = null;
+    }
+  }, [pending]);
 
   const picker = pending && (
-    <div className="grade" role="group" aria-label="Cijfer geven">
+    <div
+      ref={pickerRef}
+      className="grade"
+      role="group"
+      aria-label="Cijfer geven"
+      onKeyDown={e => {
+        if (e.key === 'Escape') onCancel();
+      }}
+    >
       <span className="grade__q">Cijfer voor {pending === 'her' ? herName : 'jou'}?</span>
       {Array.from({ length: 10 }, (_, i) => (
         <button key={i} type="button" className="grade__n" aria-label={`Cijfer ${i + 1}`} onClick={() => onGrade(i + 1)}>
@@ -51,11 +78,11 @@ export function ShitCounter({ me, her, herName, todayIdx, pending, onInc, onDec,
             <div key={p.key} className="shit-m__tile">
               <span className="shit-m__info">
                 <span className="shit-m__who" style={{ color: p.ink }}>{p.who}</span>
-                <span className="shit-m__today num" aria-live="polite">{p.s.today}</span>
+                <span className="shit-m__today num" aria-live="polite">{count(p.s.today)}</span>
                 <span className="shit-m__avg">gem. {p.s.avg}</span>
               </span>
               <span className="shit__btns">
-                <button type="button" className="shit__inc shit__inc--m" style={{ background: p.btn }} aria-label={`Eén erbij voor ${p.who === 'JIJ' ? 'jou' : p.name}`} onClick={() => onInc(p.key)}>+1</button>
+                <button type="button" ref={el => { incRefs.current[p.key] = el; }} className="shit__inc shit__inc--m" style={{ background: p.btn }} aria-label={`Eén erbij voor ${p.who === 'JIJ' ? 'jou' : p.name}`} onClick={() => onInc(p.key)}>+1</button>
                 <button type="button" className="shit__dec" aria-label={`Eén eraf voor ${p.who === 'JIJ' ? 'jou' : p.name}`} disabled={p.s.today === 0} onClick={() => onDec(p.key)}>oeps</button>
               </span>
             </div>
@@ -74,14 +101,14 @@ export function ShitCounter({ me, her, herName, todayIdx, pending, onInc, onDec,
           <ModuleMark module="shit" />
           SHIT COUNTER
         </span>
-        <span className="shit__lead">{leadText(me.weekTotal, her.weekTotal, herName)}</span>
+        <span className="shit__lead">{loading ? 'Even tellen…' : leadText(me.weekTotal, her.weekTotal, herName)}</span>
         <span className="shit__week num">Week: {weekLine}</span>
       </div>
       {people.map(p => (
         <div key={p.key} className="shit__tile">
           <div className="shit__info">
             <span className="shit__who" style={{ color: p.ink }}>{p.who}</span>
-            <span className="shit__today num" aria-live="polite">{p.s.today}</span>
+            <span className="shit__today num" aria-live="polite">{count(p.s.today)}</span>
             <span className="shit__avg">
               vandaag · gem. <span>{p.s.avg}</span>
             </span>
@@ -101,7 +128,7 @@ export function ShitCounter({ me, her, herName, todayIdx, pending, onInc, onDec,
             ))}
           </div>
           <div className="shit__btns">
-            <button type="button" className="shit__inc" style={{ background: p.btn }} aria-label={`Eén erbij voor ${p.who === 'JIJ' ? 'jou' : p.name}`} onClick={() => onInc(p.key)}>+1</button>
+            <button type="button" ref={el => { incRefs.current[p.key] = el; }} className="shit__inc" style={{ background: p.btn }} aria-label={`Eén erbij voor ${p.who === 'JIJ' ? 'jou' : p.name}`} onClick={() => onInc(p.key)}>+1</button>
             <button type="button" className="shit__dec" aria-label={`Eén eraf voor ${p.who === 'JIJ' ? 'jou' : p.name}`} disabled={p.s.today === 0} onClick={() => onDec(p.key)}>oeps</button>
           </div>
         </div>

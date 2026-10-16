@@ -35,6 +35,9 @@
   font-size: 14px;
   color: var(--ink-2);
 }
+.topnav__item { position: relative; }
+/* Zichtbaar 40px (ontwerp), klikvlak 44px. */
+.topnav__item::after { content: ''; position: absolute; inset: -2px 0; }
 .topnav__item:hover { color: var(--ink); }
 .topnav__item[aria-current=page] { background: var(--ink); color: var(--bg); font-weight: 600; }
 .topbar__place {
@@ -102,3 +105,4 @@
 .screen-title { font: 800 52px/.95 var(--font-display); letter-spacing: -.05em; }
 .screen-title--m { font-size: 40px; }
 .screen-lead { font-size: 15px; color: var(--ink-2); max-width: 560px; }
+.shell-d .offline { margin-bottom: 20px; }

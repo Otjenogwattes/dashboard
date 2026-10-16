@@ -40,4 +40,6 @@
   color: var(--ink-2);
   font-size: 14px;
 }
+.segmented button { display: inline-flex; align-items: center; gap: 8px; }
 .segmented button[aria-pressed=true] { background: var(--ink); color: var(--bg); font-weight: 600; }
+.swatch { width: 12px; height: 12px; border-radius: 50%; }

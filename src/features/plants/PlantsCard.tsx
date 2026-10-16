@@ -21,12 +21,14 @@ type Props = {
   onAddPlant?: () => void;
   compact?: boolean;
   loading?: boolean;
+  error?: string | null;
+  onRetry?: () => void;
 };
 
-export function PlantsCard({ plants, onToggle, onAddPlant, compact, loading }: Props) {
+export function PlantsCard({ plants, onToggle, onAddPlant, compact, loading, error, onRetry }: Props) {
   const all = plants.flatMap(p => p.tasks);
   const done = all.filter(t => t.done).length;
-  const empty = !loading && plants.length === 0;
+  const empty = !loading && !error && plants.length === 0;
 
   return (
     <Card radius={compact ? 22 : 24} flat={compact} className={compact ? 'plants plants--m' : 'plants'} aria-label="Mijn planten">
@@ -41,6 +43,13 @@ export function PlantsCard({ plants, onToggle, onAddPlant, compact, loading }: P
       )}
 
       {loading && <div className="plants__loading" aria-busy="true">Planten laden…</div>}
+
+      {error && !plants.length && (
+        <div className="plants__empty" role="alert">
+          <span>{error}</span>
+          {onRetry && <Button variant="outline" onClick={onRetry}>Opnieuw proberen</Button>}
+        </div>
+      )}
 
       {empty && (
         <div className="plants__empty">

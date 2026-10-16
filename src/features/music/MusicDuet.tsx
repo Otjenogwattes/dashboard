@@ -55,7 +55,7 @@ export function MusicDuet({ stats, herName, herOn, canConnect, range, onConnect,
                   </span>
                 </>
               ) : (
-                <Button variant="dashed" onClick={onInvite} style={{ minHeight: 40 }}>+ {herName} koppelen</Button>
+                <Button variant="dashed" onClick={onInvite}>+ {herName} koppelen</Button>
               )}
             </div>
             <div className="duet-m__rows">

@@ -54,6 +54,7 @@ export function useShit(now: Date, me: Profile | null, her: Profile | null) {
     todayIdx: weekdayIndex(now),
     pending,
     inc: (who: Who) => setPending(who),
+    cancel: () => setPending(null),
     dec,
     grade,
     error: error ?? poops.error,

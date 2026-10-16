@@ -66,6 +66,10 @@ export function usePlants(now: Date, weather: WeatherFacts | null) {
     loading: plants.loading || stored.loading,
     error: plants.error ?? stored.error,
     toggle,
+    retry: () => {
+      plants.reload();
+      stored.reload();
+    },
     addDefaults: () => backend.addDefaultPlants(),
     setMoisture: (id: PlantView['id'], pct: number) =>
       backend.updatePlant(id, { moisturePct: pct, moistureAt: new Date().toISOString() }),

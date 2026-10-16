@@ -17,8 +17,10 @@ export function mockPoops(now: Date): Poop[] {
   const out: Poop[] = [];
   const add = (userId: string, day: Date, n: number, grade: number | null) => {
     for (let i = 0; i < n; i++) {
-      const t = new Date(day);
+      let t = new Date(day);
       t.setHours(8 + i * 5, 10 + i * 7);
+      // Nooit in de toekomst (bijv. vlak na middernacht).
+      if (t > now) t = new Date(Math.max(day.getTime(), now.getTime() - (n - i) * 60000));
       out.push({ id: `${userId}-${t.toISOString()}`, userId, createdAt: t.toISOString(), grade });
     }
   };

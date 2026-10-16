@@ -6,6 +6,7 @@ import { resetDemo } from '../data/demoBackend';
 import { useProfiles } from '../data/useProfiles';
 import { useMusic } from '../features/music/useMusic';
 import { PlacePicker } from '../features/weather/PlacePicker';
+import type { Accent, ThemeApi, ThemeChoice } from '../lib/theme';
 import { SpotifyStatus } from './MusicScreen';
 import './more.css';
 
@@ -64,7 +65,43 @@ function Account() {
   );
 }
 
-export function More({ now, compact }: { now: Date; compact: boolean }) {
+const THEMES: { id: ThemeChoice; label: string }[] = [
+  { id: 'system', label: 'Systeem' },
+  { id: 'light', label: 'Licht' },
+  { id: 'dark', label: 'Donker' },
+];
+const ACCENTS: { id: Accent; label: string }[] = [
+  { id: 'koraal', label: 'Koraal' },
+  { id: 'geel', label: 'Geel' },
+];
+
+function Appearance({ theme }: { theme: ThemeApi }) {
+  return (
+    <Section title="Weergave">
+      <div className="setting-col">
+        <span className="setting-hint" id="thema-label">Licht of donker. Systeem volgt je telefoon of computer.</span>
+        <div className="segmented" role="group" aria-labelledby="thema-label">
+          {THEMES.map(t => (
+            <button key={t.id} type="button" aria-pressed={theme.choice === t.id} onClick={() => theme.setChoice(t.id)}>{t.label}</button>
+          ))}
+        </div>
+      </div>
+      <div className="setting-col">
+        <span className="setting-hint" id="accent-label">Accent: welke kleur is van jou en welke van de ander.</span>
+        <div className="segmented" role="group" aria-labelledby="accent-label">
+          {ACCENTS.map(a => (
+            <button key={a.id} type="button" aria-pressed={theme.accent === a.id} onClick={() => theme.setAccent(a.id)}>
+              <span className="swatch" style={{ background: a.id === 'koraal' ? '#EE6A4C' : '#F0A030' }} aria-hidden="true" />
+              {a.label}
+            </button>
+          ))}
+        </div>
+      </div>
+    </Section>
+  );
+}
+
+export function More({ now, compact, theme }: { now: Date; compact: boolean; theme: ThemeApi }) {
   const { me, partner, partnerName } = useProfiles();
   const music = useMusic(now, me, partner);
   return (
@@ -77,6 +114,7 @@ export function More({ now, compact }: { now: Date; compact: boolean }) {
         <Section title="Plaats voor het weer">
           <PlacePicker />
         </Section>
+        <Appearance theme={theme} />
         <Account />
         <SpotifyStatus music={music} partnerName={partnerName} />
       </div>

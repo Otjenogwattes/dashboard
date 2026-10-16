@@ -119,7 +119,10 @@ export function createDemoBackend(): Backend {
       emit('poops');
     },
 
-    listPlays: since => delay(mockPlays(new Date()).filter(p => p.playedAt >= since)),
+    listPlays: since => {
+      const on = new Set(get('profiles').filter(p => p.spotifyConnected).map(p => p.id));
+      return delay(mockPlays(new Date()).filter(p => p.playedAt >= since && on.has(p.userId)));
+    },
     spotifyConnectUrl: async () => {
       throw new Error('Spotify koppelen kan alleen met Supabase. Zie de README.');
     },
