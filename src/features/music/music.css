@@ -3,6 +3,7 @@
 .duet__title { font: 700 22px/1.2 var(--font-display); }
 .duet__range { margin-left: auto; font: 500 12px var(--font-mono); color: var(--night-2); }
 .duet__muted { font-size: 13px; color: var(--night-2); }
+.duet__notice { font-size: 13px; color: #F09A88; } /* kaart is altijd donker */
 
 .duet__top {
   display: grid;

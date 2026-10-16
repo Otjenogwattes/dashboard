@@ -1,20 +1,13 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '../components/Button';
-import { Card } from '../components/Card';
+import { Section } from '../components/Section';
 import { useBackend } from '../data/context';
 import { resetDemo } from '../data/demoBackend';
 import { useProfiles } from '../data/useProfiles';
+import { useMusic } from '../features/music/useMusic';
 import { PlacePicker } from '../features/weather/PlacePicker';
+import { SpotifyStatus } from './MusicScreen';
 import './more.css';
-
-export function Section({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <Card radius={24} className="setting">
-      <h2 className="setting__title">{title}</h2>
-      {children}
-    </Card>
-  );
-}
 
 function Account() {
   const backend = useBackend();
@@ -71,7 +64,9 @@ function Account() {
   );
 }
 
-export function More({ compact }: { compact: boolean }) {
+export function More({ now, compact }: { now: Date; compact: boolean }) {
+  const { me, partner, partnerName } = useProfiles();
+  const music = useMusic(now, me, partner);
   return (
     <div className={compact ? 'more more--m' : 'more'}>
       <header className="more__head">
@@ -83,6 +78,7 @@ export function More({ compact }: { compact: boolean }) {
           <PlacePicker />
         </Section>
         <Account />
+        <SpotifyStatus music={music} partnerName={partnerName} />
       </div>
     </div>
   );

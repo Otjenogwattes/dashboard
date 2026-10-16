@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { SpotifyToast } from './components/Toast';
 import { BackendProvider, useBackend } from './data/context';
 import { createDemoBackend } from './data/demoBackend';
 import { getSupabase, supabaseBackendFor } from './data/supabaseBackend';
@@ -11,6 +12,7 @@ import { useNow } from './lib/useNow';
 import { useTheme } from './lib/theme';
 import { Login, NewPassword, Splash, useSession } from './screens/Login';
 import { More } from './screens/More';
+import { MusicScreen } from './screens/MusicScreen';
 import { PlantsScreen } from './screens/PlantsScreen';
 import { Today } from './screens/Today';
 import { DesktopShell, MobileShell, type Tab } from './shell/Shell';
@@ -75,15 +77,16 @@ function Balkon() {
       <Today now={now} city={city} weather={weather} compact={!isDesktop} />
     ) : tab === 'planten' ? (
       <PlantsScreen now={now} weather={weather} compact={!isDesktop} />
-    ) : tab === 'meer' ? (
-      <More compact={!isDesktop} />
+    ) : tab === 'muziek' ? (
+      <MusicScreen now={now} compact={!isDesktop} />
     ) : (
-      <Later tab={tab} compact={!isDesktop} />
+      <More now={now} compact={!isDesktop} />
     );
 
   if (isDesktop) {
     return (
       <DesktopShell tab={tab} onTab={setTab} city={city} theme={theme}>
+        <SpotifyToast />
         {screen}
       </DesktopShell>
     );
@@ -96,17 +99,9 @@ function Balkon() {
       theme={theme}
       bottom={tab === 'vandaag' || tab === 'planten' ? <NoteBar compact onSave={(text, plantId) => backend.addNote(text, plantId)} /> : null}
     >
+      <SpotifyToast />
       {screen}
     </MobileShell>
   );
 }
 
-function Later({ tab, compact }: { tab: Tab; compact: boolean }) {
-  const title = { vandaag: 'Vandaag', planten: 'Planten', muziek: 'Muziek', meer: 'Herinneringen' }[tab];
-  return (
-    <section style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-      <h1 className={compact ? 'screen-title screen-title--m' : 'screen-title'}>{title}</h1>
-      <p className="screen-lead">Dit scherm volgt later in dezelfde stijl.</p>
-    </section>
-  );
-}

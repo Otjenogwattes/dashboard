@@ -69,6 +69,7 @@ export function Today({ now, city, weather, compact }: Props) {
       compact={compact}
       loading={music.loading && !music.stats}
       error={music.error}
+      notice={music.actionError}
     />
   );
 

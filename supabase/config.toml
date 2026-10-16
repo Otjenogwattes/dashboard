@@ -1,0 +1,14 @@
+# Instellingen voor de Supabase CLI (alleen nodig als je met de CLI deployt).
+project_id = "balkon"
+
+# JWT-controle doen de functies zelf: spotify-auth controleert de sessie,
+# spotify-sync controleert CRON_SECRET en spotify-callback wordt door Spotify
+# aangeroepen (zonder sessie).
+[functions.spotify-auth]
+verify_jwt = false
+
+[functions.spotify-callback]
+verify_jwt = false
+
+[functions.spotify-sync]
+verify_jwt = false

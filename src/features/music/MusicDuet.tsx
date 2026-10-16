@@ -17,6 +17,8 @@ type Props = {
   compact?: boolean;
   loading?: boolean;
   error?: string | null;
+  /** Melding onder de kaart, bijv. als koppelen mislukte. */
+  notice?: string | null;
 };
 
 function Cover({ track }: { track: TopTrack }) {
@@ -24,7 +26,7 @@ function Cover({ track }: { track: TopTrack }) {
   return <span className="duet__cover duet__cover--empty" aria-hidden="true">hoes</span>;
 }
 
-export function MusicDuet({ stats, herName, herOn, canConnect, range, onConnect, onInvite, compact, loading, error }: Props) {
+export function MusicDuet({ stats, herName, herOn, canConnect, range, onConnect, onInvite, compact, loading, error, notice }: Props) {
   const hasData = !!stats && stats.mePlays > 0;
   const herUpper = herName.toUpperCase();
 
@@ -86,6 +88,7 @@ export function MusicDuet({ stats, herName, herOn, canConnect, range, onConnect,
             {canConnect && <Button variant="music" onClick={onConnect} style={{ alignSelf: 'flex-start' }}>Spotify koppelen</Button>}
           </>
         )}
+        {notice && <span className="duet__notice" role="alert">{notice}</span>}
       </Card>
     );
   }
@@ -189,6 +192,7 @@ export function MusicDuet({ stats, herName, herOn, canConnect, range, onConnect,
           {canConnect && <Button variant="music" size="lg" onClick={onConnect}>Spotify koppelen</Button>}
         </div>
       )}
+      {notice && <span className="duet__notice" role="alert">{notice}</span>}
     </Card>
   );
 }
